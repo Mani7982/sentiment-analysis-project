@@ -1,5 +1,5 @@
-# Sentiment Analysis Pipeline
 
+# Sentiment Analysis Pipeline
 
 ## Setup
 
@@ -15,3 +15,11 @@ pip install -r requirements.txt
 
 ## Train
 python src/train.py
+
+
+## Predict
+
+To make predictions with a trained sentiment model, use the `predict.py` script:
+
+python src/predict.py --model models/sentiment.joblib "Your text here"
+
