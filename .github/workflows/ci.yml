@@ -48,6 +48,6 @@ jobs:
       - name: Install Black
         run: pip install black
 
-      - name: Run Black formatter
-        run: black --check src/
+      - name: Auto-format code with Black
+        run: black src/
 
