@@ -1,10 +1,15 @@
-from sklearn.feature_extraction.text import TfidfVectorizer  # Convert text to numerical features
-from sklearn.linear_model import LogisticRegression          # Example model for classification
-from sklearn.pipeline import Pipeline, make_pipeline         # Combine vectorizer + model in a pipeline
-from sklearn.model_selection import train_test_split         # Split data into train/test
-import pandas as pd                                           # Load and manipulate CSV data
-import os                                                     # Work with directories / paths
-from joblib import dump                                       # Save trained models
+from sklearn.feature_extraction.text import (
+    TfidfVectorizer,
+)  # Convert text to numerical features
+from sklearn.linear_model import LogisticRegression  # Example model for classification
+from sklearn.pipeline import (
+    Pipeline,
+    make_pipeline,
+)  # Combine vectorizer + model in a pipeline
+from sklearn.model_selection import train_test_split  # Split data into train/test
+import pandas as pd  # Load and manipulate CSV data
+import os  # Work with directories / paths
+from joblib import dump  # Save trained models
 import os
 
 
@@ -17,9 +22,11 @@ def load_and_validate_data(data_path: str) -> pd.DataFrame:
         raise ValueError("CSV must contain 'text' and 'label' columns")
     return df
 
+
 if __name__ == "__main__":
     df = load_and_validate_data("sentiments.csv")
     print(df.head())
+
 
 def split_data(
     df: pd.DataFrame,
@@ -30,7 +37,11 @@ def split_data(
     try:
         # Stratified split is preferred
         X_train, X_test, y_train, y_test = train_test_split(
-            df["text"], df["label"], test_size=0.2, random_state=42, stratify=df["label"]
+            df["text"],
+            df["label"],
+            test_size=0.2,
+            random_state=42,
+            stratify=df["label"],
         )
     except ValueError:
         # Fallback if stratification fails (e.g., on very small datasets)
@@ -38,6 +49,7 @@ def split_data(
             df["text"], df["label"], test_size=0.2, random_state=42
         )
     return X_train, X_test, y_train, y_test
+
 
 def train_model(X_train: pd.Series, y_train: pd.Series) -> Pipeline:
     """
@@ -49,6 +61,7 @@ def train_model(X_train: pd.Series, y_train: pd.Series) -> Pipeline:
     )
     clf_pipeline.fit(X_train, y_train)
     return clf_pipeline
+
 
 def save_model(model: Pipeline, model_path: str) -> None:
     """

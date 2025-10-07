@@ -11,12 +11,11 @@ def load_model(model_path: str) -> Any:
 
 
 def predict_texts(
-    classifier: Any,
-    input_texts: Sequence[str]
+    classifier: Any, input_texts: Sequence[str]
 ) -> Tuple[List[str], List[float | None]]:
     """Return labels (str) and probability-of-positive for each text."""
     preds: list[str] = classifier.predict(input_texts).tolist()
-    
+
     if hasattr(classifier, "predict_proba"):
         probs_arr: NDArray[np.float64] = classifier.predict_proba(input_texts)[:, 1]
         probs: list[float | None] = [float(p) for p in probs_arr.tolist()]
@@ -27,9 +26,7 @@ def predict_texts(
 
 
 def format_prediction_lines(
-    texts: Sequence[str],
-    preds: Sequence[str],
-    probs: Sequence[float | None]
+    texts: Sequence[str], preds: Sequence[str], probs: Sequence[float | None]
 ) -> List[str]:
     """Return tab-separated CLI output lines for each input text."""
     lines: List[str] = []
@@ -49,12 +46,12 @@ def main(model_path: str, input_texts: Sequence[str]) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Predict sentiment using a trained model")
+    parser = argparse.ArgumentParser(
+        description="Predict sentiment using a trained model"
+    )
     parser.add_argument(
         "--model", default="models/sentiment.joblib", help="Path to trained model"
     )
-    parser.add_argument(
-        "text", nargs="+", help="One or more texts to score"
-    )
+    parser.add_argument("text", nargs="+", help="One or more texts to score")
     args = parser.parse_args()
     main(model_path=args.model, input_texts=args.text)
