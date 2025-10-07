@@ -36,3 +36,18 @@ jobs:
       - name: Run tests
         run: pytest
 
+
+  run-formatter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Black
+        run: pip install black
+
+      - name: Run Black formatter
+        run: black --check src/
+
