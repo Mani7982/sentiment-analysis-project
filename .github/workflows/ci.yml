@@ -50,4 +50,3 @@ jobs:
 
       - name: Auto-format code with Black
         run: black src/
-
