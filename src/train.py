@@ -63,3 +63,4 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = split_data(df)
     model = train_model(X_train, y_train)
     save_model(model, "models/sentiment_model.pkl")
+# Trigger GitHub Actions workflow
