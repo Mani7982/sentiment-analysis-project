@@ -1,23 +1,29 @@
+import logging
+import os
+
+from joblib import dump
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
-from joblib import dump
-import os
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 # Sample data
-texts = ["I love this product", "This is amazing", "I hate this", "This is terrible"]
-labels = ["positive", "positive", "negative", "negative"]
+sample_texts = ["I love this movie!", "I hate this movie!"]
+sample_labels = [1, 0]
 
-# Create a simple pipeline: vectorizer + Naive Bayes
-model = make_pipeline(CountVectorizer(), MultinomialNB())
+# Build a simple pipeline
+pipeline = make_pipeline(
+    CountVectorizer(),
+    MultinomialNB(),
+)
 
 # Train the model
-model.fit(texts, labels)
+pipeline.fit(sample_texts, sample_labels)
 
-# Make sure models folder exists
-os.makedirs("models", exist_ok=True)
-
-# Save the trained model
-dump(model, "models/sentiment.joblib")
-
-print("Model trained and saved to models/sentiment.joblib")
+# Save the model
+model_path = "models/sample_model.pkl"
+os.makedirs(os.path.dirname(model_path), exist_ok=True)
+dump(pipeline, model_path)
+logging.info(f"Saved model to {model_path}")

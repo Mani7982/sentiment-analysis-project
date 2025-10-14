@@ -1,8 +1,10 @@
 import argparse
-from typing import Any, Sequence, Tuple, List
+import logging
+from typing import Any, List, Sequence, Tuple
+
 import numpy as np
-from numpy.typing import NDArray
 from joblib import load
+from numpy.typing import NDArray
 
 
 def load_model(model_path: str) -> Any:
@@ -40,9 +42,10 @@ def format_prediction_lines(
 
 def main(model_path: str, input_texts: Sequence[str]) -> None:
     classifier = load_model(model_path)
+    logging.basicConfig(level=logging.INFO)
     preds, probs = predict_texts(classifier, input_texts)
     for line in format_prediction_lines(input_texts, preds, probs):
-        print(line)
+        logging.info(line)  # ✅ Indented correctly
 
 
 if __name__ == "__main__":
